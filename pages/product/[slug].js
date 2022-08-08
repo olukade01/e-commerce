@@ -8,12 +8,16 @@ import {
   AiFillStar,
 } from "react-icons/ai";
 import { Product } from "../../components";
+import { useStateContext } from "../../context/StateContext";
+import product from "../../sanity_ecommerce/schemas/product";
 
 const ProductDetails = ({
   product: { image, name, details, price },
   products,
 }) => {
   const [index, setIndex] = useState(0);
+
+  const { decreaseQty, increaseQty, qty, onAdd } = useStateContext();
 
   return (
     <div>
@@ -59,17 +63,17 @@ const ProductDetails = ({
           <div>
             <h3>Quantity:</h3>
             <p>
-              <span onClick="">
+              <span onClick={decreaseQty}>
                 <AiOutlineMinus />
               </span>
-              <span onClick="">0</span>
-              <span onClick="">
+              <span onClick="">{qty}</span>
+              <span onClick={increaseQty}>
                 <AiOutlinePlus />
               </span>
             </p>
           </div>
           <div>
-            <button onClick="">Add to Cart</button>
+            <button onClick={() => onAdd(product, qty)}>Add to Cart</button>
             <button onClick="">Buy Now </button>
           </div>
         </div>
