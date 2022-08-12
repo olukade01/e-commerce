@@ -14,8 +14,15 @@ import { urlFor } from "../lib/client";
 
 const Cart = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart } =
-    useStateContext();
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    setShowCart,
+    decreaseQty,
+    increaseQty,
+    qty,
+  } = useStateContext();
 
   return (
     <div ref={cartRef}>
@@ -36,30 +43,37 @@ const Cart = () => {
           </div>
         )}
         <div>
-          {cartItems.map((item) => (
-            <div key={item._id}>
-              <Image alt="" src={urlFor(item?.image[0])} />
-              <div>
-                <div>
-                  <h5>{item.name}</h5>
-                  <h4>${item.price}</h4>
-                </div>
+          {
+            // cartItems.length >= 1 &&
+            cartItems.map((item) => (
+              <div key={item._id}>
+                {console.log({ cartItems })}
+                <Image alt="" src={urlFor(item?.image[0])} />
                 <div>
                   <div>
-                    <p>
-                      <span onClick={decreaseQty}>
-                        <AiOutlineMinus />
-                      </span>
-                      <span onClick="">{qty}</span>
-                      <span onClick={increaseQty}>
-                        <AiOutlinePlus />
-                      </span>
-                    </p>
+                    <h5>{item.name}</h5>
+                    <h4>${item.price}</h4>
+                  </div>
+                  <div>
+                    <div>
+                      <p>
+                        <span onClick={() => {}}>
+                          <AiOutlineMinus />
+                        </span>
+                        <span>0</span>
+                        <span onClick={() => {}}>
+                          <AiOutlinePlus />
+                        </span>
+                      </p>
+                    </div>
+                    <button type="button" onClick={() => {}}>
+                      <TiDeleteOutline />
+                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </div>

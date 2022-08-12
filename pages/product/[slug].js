@@ -19,6 +19,7 @@ const ProductDetails = ({
 
   const { decreaseQty, increaseQty, qty, onAdd } = useStateContext();
 
+  console.log({ price });
   return (
     <div>
       <div>
@@ -66,7 +67,7 @@ const ProductDetails = ({
               <span onClick={decreaseQty}>
                 <AiOutlineMinus />
               </span>
-              <span onClick="">{qty}</span>
+              <span>{qty}</span>
               <span onClick={increaseQty}>
                 <AiOutlinePlus />
               </span>
@@ -74,7 +75,7 @@ const ProductDetails = ({
           </div>
           <div>
             <button onClick={() => onAdd(product, qty)}>Add to Cart</button>
-            <button onClick="">Buy Now </button>
+            <button onClick={() => {}}>Buy Now </button>
           </div>
         </div>
       </div>
