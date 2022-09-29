@@ -5,14 +5,14 @@ import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="layout">
       <Head>
-        <title>Muz e-commerce</title>
+        <title>Muzzammil e-commerce</title>
       </Head>
       <header>
         <Navbar />
       </header>
-      <main>{children}</main>
+      <main className="main-container">{children}</main>
       <footer>
         <Footer />
       </footer>

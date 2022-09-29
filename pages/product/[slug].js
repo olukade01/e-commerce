@@ -22,17 +22,17 @@ const ProductDetails = ({
   console.log({ price });
   return (
     <div>
-      <div>
+      <div className="product-detail-container">
         <div>
-          <div>
-            <Image
+          <div className="image-container">
+            <img
               alt=""
-              width={250}
-              height={250}
+              // width={250}
+              // height={250}
               src={`${urlFor(image && image[index])}`}
             />
           </div>
-          <div>
+          <div className="small-images-container">
             {image?.map((item, i) => (
               <Image
                 key={i}
@@ -40,15 +40,16 @@ const ProductDetails = ({
                 width={250}
                 height={250}
                 src={`${urlFor(item)}`}
+                className=""
                 onMouseEnter={() => setIndex(i)}
               />
             ))}
           </div>
         </div>
 
-        <div>
+        <div className="product-details-desc">
           <h1>{name}</h1>
-          <div>
+          <div className="reviews">
             <div>
               <AiFillStar />
               <AiFillStar />
@@ -60,15 +61,15 @@ const ProductDetails = ({
           </div>
           <h4>Details:</h4>
           <p>{details}</p>
-          <p>${price}</p>
-          <div>
+          <p className="price">${price}</p>
+          <div className="quantity">
             <h3>Quantity:</h3>
-            <p>
-              <span onClick={decreaseQty}>
+            <p className="quantity-desc">
+              <span className="minus" onClick={decreaseQty}>
                 <AiOutlineMinus />
               </span>
-              <span>{qty}</span>
-              <span onClick={increaseQty}>
+              <span className="num">{qty}</span>
+              <span className="plus" onClick={increaseQty}>
                 <AiOutlinePlus />
               </span>
             </p>

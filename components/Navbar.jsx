@@ -8,12 +8,13 @@ import { Cart } from "./";
 const Navbar = () => {
   const { showCart, setShowCart, totalQuantities } = useStateContext();
   return (
-    <div>
-      <p>
+    <div className="navbar-container">
+      <p className="logo">
         <Link href="/">MUZ STORE</Link>
       </p>
-      <button onClick={() => setShowCart(true)}>
-        <AiOutlineShopping /> <span>{totalQuantities}</span>
+      <button className="cart-icon" onClick={() => setShowCart(true)}>
+        <AiOutlineShopping />{" "}
+        <span className="cart-item-qty">{totalQuantities}</span>
       </button>
       {showCart && <Cart />}
     </div>
