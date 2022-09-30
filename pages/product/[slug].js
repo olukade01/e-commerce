@@ -9,13 +9,10 @@ import {
 } from "react-icons/ai";
 import { Product } from "../../components";
 import { useStateContext } from "../../context/StateContext";
-import product from "../../sanity_ecommerce/schemas/product";
 
-const ProductDetails = ({
-  product: { image, name, details, price },
-  products,
-}) => {
+const ProductDetails = ({ product, products }) => {
   const [index, setIndex] = useState(0);
+  const { image, name, details, price } = product;
 
   const { decreaseQty, increaseQty, qty, onAdd } = useStateContext();
 
@@ -29,25 +26,28 @@ const ProductDetails = ({
               alt=""
               // width={250}
               // height={250}
+              className="product-detail-image"
               src={`${urlFor(image && image[index])}`}
             />
           </div>
           <div className="small-images-container">
             {image?.map((item, i) => (
-              <Image
+              <img
                 key={i}
                 alt=""
-                width={250}
-                height={250}
+                // width={250}
+                // height={250}
                 src={`${urlFor(item)}`}
-                className=""
+                className={
+                  i === index ? "small-image selected-image" : "small-image"
+                }
                 onMouseEnter={() => setIndex(i)}
               />
             ))}
           </div>
         </div>
 
-        <div className="product-details-desc">
+        <div className="product-detail-desc">
           <h1>{name}</h1>
           <div className="reviews">
             <div>
@@ -74,16 +74,20 @@ const ProductDetails = ({
               </span>
             </p>
           </div>
-          <div>
-            <button onClick={() => onAdd(product, qty)}>Add to Cart</button>
-            <button onClick={() => {}}>Buy Now </button>
+          <div className="buttons">
+            <button className="add-to-cart" onClick={() => onAdd(product, qty)}>
+              Add to Cart
+            </button>
+            <button className="buy-now" onClick={() => {}}>
+              Buy Now{" "}
+            </button>
           </div>
         </div>
       </div>
-      <div>
+      <div className="maylike-products-wrapper">
         <h2>Things you may also like</h2>
-        <div>
-          <div>
+        <div className="marquee">
+          <div className="maylike-products-container track">
             {products.map((product) => (
               <Product key={product._id} product={product} />
             ))}

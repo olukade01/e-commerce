@@ -25,55 +25,70 @@ const Cart = () => {
   } = useStateContext();
 
   return (
-    <div ref={cartRef}>
-      <div>
-        <button onClick={() => setShowCart(false)} type="button">
+    <div className="cart-wrapper" ref={cartRef}>
+      <div className="cart-container">
+        <button
+          className="cart-heading"
+          onClick={() => setShowCart(false)}
+          type="button"
+        >
           <AiOutlineLeft />
-          <span>Your Cart</span> <span>({totalQuantities} items)</span>
+          <span className="heading">Your Cart</span>{" "}
+          <span className="cart-num-items">({totalQuantities} items)</span>
         </button>
         {cartItems.length < 1 && (
-          <div>
+          <div className="empty-cart">
             <AiOutlineShopping size={150} />
             <h3>Your shopping bag is empty</h3>
             <Link href="/">
-              <button type="button" onClick={() => setShowCart(false)}>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setShowCart(false)}
+              >
                 CONTINUE SHOPPING
               </button>
             </Link>
           </div>
         )}
-        <div>
-          {
-            // cartItems.length >= 1 &&
+        <div className="product-container">
+          {cartItems.length >= 1 &&
             cartItems.map((item) => (
-              <div key={item._id}>
-                {console.log({ cartItems })}
-                <Image alt="" src={urlFor(item?.image[0])} />
-                <div>
-                  <div>
+              <div className="product" key={item._id}>
+                {/* {console.log({ cartItems })} */}
+                <img
+                  alt=""
+                  src={urlFor(item?.image[0])}
+                  className="cart-product-image"
+                />
+                <div className="item-desc">
+                  <div className="flex top">
                     <h5>{item.name}</h5>
                     <h4>${item.price}</h4>
                   </div>
-                  <div>
+                  <div className="flex bottom">
                     <div>
-                      <p>
-                        <span onClick={() => {}}>
+                      <p className="quantity-desc">
+                        <span className="minus" onClick={() => {}}>
                           <AiOutlineMinus />
                         </span>
-                        <span>0</span>
-                        <span onClick={() => {}}>
+                        <span className="num">0</span>
+                        <span className="plus" onClick={() => {}}>
                           <AiOutlinePlus />
                         </span>
                       </p>
                     </div>
-                    <button type="button" onClick={() => {}}>
+                    <button
+                      type="button"
+                      className="remove-item"
+                      onClick={() => {}}
+                    >
                       <TiDeleteOutline />
                     </button>
                   </div>
                 </div>
               </div>
-            ))
-          }
+            ))}
         </div>
       </div>
     </div>
