@@ -19,10 +19,11 @@ const Cart = () => {
     totalQuantities,
     cartItems,
     setShowCart,
-    decreaseQty,
-    increaseQty,
-    qty,
+    toggleCartItemQuantity,
+    onRemove,
   } = useStateContext();
+
+  const handlePay = () => {};
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
@@ -69,11 +70,21 @@ const Cart = () => {
                   <div className="flex bottom">
                     <div>
                       <p className="quantity-desc">
-                        <span className="minus" onClick={() => {}}>
+                        <span
+                          className="minus"
+                          onClick={() =>
+                            toggleCartItemQuantity(item._id, "dec")
+                          }
+                        >
                           <AiOutlineMinus />
                         </span>
-                        <span className="num">0</span>
-                        <span className="plus" onClick={() => {}}>
+                        <span className="num">{item.quantity}</span>
+                        <span
+                          className="plus"
+                          onClick={() =>
+                            toggleCartItemQuantity(item._id, "inc")
+                          }
+                        >
                           <AiOutlinePlus />
                         </span>
                       </p>
@@ -81,7 +92,7 @@ const Cart = () => {
                     <button
                       type="button"
                       className="remove-item"
-                      onClick={() => {}}
+                      onClick={() => onRemove(item._id)}
                     >
                       <TiDeleteOutline />
                     </button>
@@ -90,6 +101,19 @@ const Cart = () => {
               </div>
             ))}
         </div>
+        {cartItems.length >= 1 && (
+          <div className="cart-bottom">
+            <div className="total">
+              <h3>Subtotal:</h3>
+              <h3>${totalPrice}</h3>
+            </div>
+            <div className="btn-container">
+              <button onClick={handlePay} className="btn" type="button">
+                pay with stripe
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
