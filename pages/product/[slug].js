@@ -1,21 +1,33 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import { client, urlFor } from "../../lib/client";
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineStar,
-  AiFillStar,
-} from "react-icons/ai";
-import { Product } from "../../components";
-import { useStateContext } from "../../context/StateContext";
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { client, urlFor } from '../../lib/client';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { Product } from '../../components';
+import { useStateContext } from '../../context/StateContext';
+import { Rating } from '@mui/material';
 
 const ProductDetails = ({ product, products }) => {
-  const [index, setIndex] = useState(0);
-  const { image, name, details, price } = product;
+  const {
+    image,
+    name,
+    details,
+    price,
+    rating,
+    numReviews,
+    category,
+    brand,
+    inStock,
+  } = product;
 
-  const { decreaseQty, increaseQty, qty, onAdd, setShowCart } =
-    useStateContext();
+  const {
+    decreaseQty,
+    increaseQty,
+    qty,
+    onAdd,
+    setShowCart,
+    indexx,
+    setIndexx,
+  } = useStateContext();
 
   const handleBuy = () => {
     onAdd(product, qty);
@@ -33,7 +45,7 @@ const ProductDetails = ({ product, products }) => {
               // width={250}
               // height={250}
               className="product-detail-image"
-              src={`${urlFor(image && image[index])}`}
+              src={`${urlFor(image && image[indexx])}`}
             />
           </div>
           <div className="small-images-container">
@@ -45,9 +57,9 @@ const ProductDetails = ({ product, products }) => {
                 // height={250}
                 src={`${urlFor(item)}`}
                 className={
-                  i === index ? "small-image selected-image" : "small-image"
+                  i === indexx ? 'small-image selected-image' : 'small-image'
                 }
-                onMouseEnter={() => setIndex(i)}
+                onMouseEnter={() => setIndexx(i)}
               />
             ))}
           </div>
@@ -56,17 +68,19 @@ const ProductDetails = ({ product, products }) => {
         <div className="product-detail-desc">
           <h1>{name}</h1>
           <div className="reviews">
-            <div>
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiOutlineStar />
-            </div>
-            <p>(20)</p>
+            <Rating value={rating} readOnly></Rating>
+            <p>({numReviews})</p>
           </div>
+          <h4>Category:</h4>
+          <p>{category}</p>
+          <h4>Brand:</h4>
+          <p>{brand}</p>
           <h4>Details:</h4>
           <p>{details}</p>
+          <h4>Status:</h4>
+          <p className={`${inStock ? 'instock' : 'unavailable'}`}>
+            {inStock > 0 ? 'In Stock' : 'Unavailable'}
+          </p>
           <p className="price">${price}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
@@ -85,7 +99,7 @@ const ProductDetails = ({ product, products }) => {
               Add to Cart
             </button>
             <button className="buy-now" onClick={handleBuy}>
-              Buy Now{" "}
+              Buy Now{' '}
             </button>
           </div>
         </div>
@@ -118,7 +132,7 @@ export const getStaticPaths = async () => {
   }));
   return {
     paths,
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 };
 

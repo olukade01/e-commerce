@@ -39,7 +39,7 @@ export default {
     {
       name: 'rating',
       title: 'Rating',
-      type: 'number ',
+      type: 'number',
     },
     {
       name: 'numReviews',
