@@ -1,15 +1,23 @@
+import { Switch } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import { AiOutlineShopping } from 'react-icons/ai';
 import { useStateContext } from '../context/StateContext';
 import { Cart } from './';
 
-const Navbar = () => {
+const Navbar = ({ darkMode, darkModeChangeHandler }) => {
   const { showCart, setShowCart, totalQuantities } = useStateContext();
+
   return (
     <div className="navbar-container">
       <p className="logo">
         <Link href="/">MUZ STORE</Link>
+      </p>
+      <div>
+        <Switch checked={darkMode} onChange={darkModeChangeHandler}></Switch>
+      </div>
+      <p className="logo">
+        <Link href="/login">Login</Link>
       </p>
       <button className="cart-icon" onClick={() => setShowCart(true)}>
         <AiOutlineShopping />{' '}

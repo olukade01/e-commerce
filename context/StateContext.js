@@ -35,10 +35,14 @@ const StateContext = ({ children }) => {
 
   const onAdd = (product, quantity) => {
     const checkItemInCart = cartItems.find((item) => item._id === product._id);
-    setTotalPrice((prevValue) => prevValue + product.price * quantity);
-    setTotalQuantities((prevValue) => prevValue + quantity);
 
     if (checkItemInCart) {
+      if (product.inStock < quantity) {
+        toast.error(`Sorry, ${product.name} is out of stock`);
+        return;
+      }
+      setTotalPrice((prevValue) => prevValue + product.price * quantity);
+      setTotalQuantities((prevValue) => prevValue + quantity);
       const updatedCartItem = cartItems.map((item) => {
         if (item._id === product._id) {
           return { ...item, quantity: item.quantity + quantity };
@@ -47,6 +51,12 @@ const StateContext = ({ children }) => {
       });
       setCartItems(updatedCartItem);
     } else {
+      if (product.inStock < quantity) {
+        toast.error(`Sorry, ${product.name} is out of stock`);
+        return;
+      }
+      setTotalPrice((prevValue) => prevValue + product.price * quantity);
+      setTotalQuantities((prevValue) => prevValue + quantity);
       product.quantity = quantity;
       setCartItems([...cartItems, { ...product }]);
     }
