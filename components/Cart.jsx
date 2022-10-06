@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   AiOutlineLeft,
@@ -23,6 +23,7 @@ const Cart = () => {
     toggleCartItemQuantity,
     onRemove,
   } = useStateContext();
+  const [products, setProducts] = useState(cartItems);
 
   const handlePay = async () => {
     const stripe = await getStripe();
@@ -68,7 +69,6 @@ const Cart = () => {
           {cartItems.length >= 1 &&
             cartItems.map((item) => (
               <div className="product" key={item._id}>
-                {/* {console.log({ cartItems })} */}
                 <img
                   alt=""
                   src={urlFor(item?.image[0])}
