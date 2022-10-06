@@ -1,6 +1,6 @@
-import React from "react";
-import { FooterBanner, HeroBanner, Product } from "../components";
-import { client } from "../lib/client";
+import React from 'react';
+import { FooterBanner, HeroBanner, Product } from '../components';
+import { client } from '../lib/client';
 // import product from "../sanity_ecommerce/schemas/product";
 
 const Home = ({ products, bannerData }) => {
