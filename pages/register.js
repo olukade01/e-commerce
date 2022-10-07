@@ -6,23 +6,50 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import NextLink from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import Form from '../components/Form';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import jsCookie from 'js-cookie';
+import { useRouter } from 'next/router';
+import { Store } from '../lib/store';
 
 const Register = () => {
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, [router, userInfo]);
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  const submitHandler = async ({
-    name,
-    email,
-    password,
-    confirmPassword,
-  }) => {};
+  const submitHandler = async ({ name, email, password, confirmPassword }) => {
+    if (password !== confirmPassword) {
+      toast.error("Password don't match");
+      return;
+    }
+    try {
+      const { data } = await axios.post('/api/users/register', {
+        name,
+        email,
+        password,
+      });
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      jsCookie.set('userInfo', JSON.stringify(data));
+      router.push('/');
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <div>
       <Form onSubmit={handleSubmit(submitHandler)}>

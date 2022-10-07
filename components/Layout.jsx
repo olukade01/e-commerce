@@ -9,7 +9,7 @@ import jsCookie from 'js-cookie';
 
 const Layout = ({ children }) => {
   const { state, dispatch } = useContext(Store);
-  const { darkMode } = state;
+  const { darkMode, userInfo } = state;
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
@@ -36,6 +36,7 @@ const Layout = ({ children }) => {
         <header>
           <Navbar
             darkMode={darkMode}
+            userInfo={userInfo}
             darkModeChangeHandler={darkModeChangeHandler}
           />
         </header>
@@ -49,3 +50,6 @@ const Layout = ({ children }) => {
 };
 
 export default Layout;
+
+// SANITY_TOKEN =
+//   sksL4WviOaerW8GOM59MVENpi7uu4pHNv1sLdIaalQFwMX1oA4pzc49oUi34cJ1xodx2xksR5bP11tARSlNlYLIjfNvVZABARLKdp2V1gTzNAC5b9M6AX0FdeWExOkNvTriUGylLN42TFkBAoC06XW37S2cypdj1ilF8cUQyagbF1YqAgSva;
