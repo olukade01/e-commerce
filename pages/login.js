@@ -6,18 +6,44 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import NextLink from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import Form from '../components/Form';
+import jsCookie from 'js-cookie';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { Store } from '../lib/store';
+import { useRouter } from 'next/router';
+import { getError } from '../lib/error';
 
 const Login = () => {
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, [router, userInfo]);
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  const submitHandler = async ({ email, password }) => {};
+  const submitHandler = async ({ email, password }) => {
+    try {
+      const { data } = await axios.post('/api/users/login', {
+        email,
+        password,
+      });
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      jsCookie.set('userInfo', JSON.stringify(data));
+      router.push('/');
+    } catch (error) {
+      toast.error(getError(error));
+    }
+  };
   return (
     <div>
       <Form onSubmit={handleSubmit(submitHandler)}>

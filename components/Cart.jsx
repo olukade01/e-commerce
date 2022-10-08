@@ -23,15 +23,17 @@ const Cart = () => {
     toggleCartItemQuantity,
     onRemove,
   } = useStateContext();
-  // const [products, setProducts] = useState(cartItems);
 
   const handlePay = async () => {
     const stripe = await getStripe();
     const response = await fetch('/api/stripe', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(cartItems),
     });
+    console.log({ response });
     if (response.statusCode === 500) return;
     const data = await response.json();
     toast.loading('Redirecting...');

@@ -1,31 +1,33 @@
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
+const stripe = new Stripe(
+  'sk_test_51Lo2NKHuALG6UF6qZREKm5pjwdSZdq9U9LYZ9kA00ZLVh81vOn0tp3pzJAKufKaI320lObYjDYo95fahbmgnQDva003rRdkqwC'
+);
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     console.log(req.body.cartItems);
     try {
       const params = {
-        submit_type: "pay",
-        mode: "payment",
-        payment_method_types: ["card"],
-        billing_address_collection: "auto",
+        submit_type: 'pay',
+        mode: 'payment',
+        payment_method_types: ['card'],
+        billing_address_collection: 'auto',
         shipping_options: [
           // { shipping_rate: "shr_1Lo3dyHuALG6UF6qVERnzI9k" },
-          { shipping_rate: "shr_1Lo3kmHuALG6UF6qGmpfpQRg" },
+          { shipping_rate: 'shr_1Lo3kmHuALG6UF6qGmpfpQRg' },
         ],
         line_items: req.body.map((item) => {
           const img = item.image[0].asset._ref;
           const newImage = img
             .replace(
-              "image-",
-              "https://cdn.sanity.io/images/gdnfh238/production/"
+              'image-',
+              'https://cdn.sanity.io/images/gdnfh238/production/'
             )
-            .replace("-webp", ".webp");
+            .replace('-webp', '.webp');
 
           return {
             price_data: {
-              currency: "ngn",
+              currency: 'ngn',
               product_data: {
                 name: item.name,
                 images: [newImage],
@@ -49,7 +51,7 @@ export default async function handler(req, res) {
       res.status(err.statusCode || 500).json(err.message);
     }
   } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    res.setHeader('Allow', 'POST');
+    res.status(405).end('Method Not Allowed');
   }
 }

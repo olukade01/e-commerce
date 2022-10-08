@@ -15,6 +15,7 @@ import axios from 'axios';
 import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { Store } from '../lib/store';
+import { getError } from '../lib/error';
 
 const Register = () => {
   const { state, dispatch } = useContext(Store);
@@ -47,7 +48,7 @@ const Register = () => {
       jsCookie.set('userInfo', JSON.stringify(data));
       router.push('/');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(getError(error));
     }
   };
   return (
