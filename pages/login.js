@@ -21,16 +21,13 @@ const Login = () => {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
   const router = useRouter();
+  const { redirect } = router.query;
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push(redirect || '/');
     }
-  }, [router, userInfo]);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+  }, [router, userInfo, redirect]);
+  const { handleSubmit, control } = useForm();
   const submitHandler = async ({ email, password }) => {
     try {
       const { data } = await axios.post('/api/users/login', {
@@ -39,7 +36,7 @@ const Login = () => {
       });
       dispatch({ type: 'USER_LOGIN', payload: data });
       jsCookie.set('userInfo', JSON.stringify(data));
-      router.push('/');
+      router.push(redirect || '/');
     } catch (error) {
       toast.error(getError(error));
     }
@@ -116,7 +113,7 @@ const Login = () => {
           </ListItem>
           <ListItem>
             Do not have an account?{' '}
-            <NextLink href={`/register`} passHref>
+            <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>
               <Link>Register</Link>
             </NextLink>
           </ListItem>

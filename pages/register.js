@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 're act';
 import NextLink from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import Form from '../components/Form';
@@ -21,12 +21,13 @@ const Register = () => {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
   const router = useRouter();
+  const { redirect } = router.query;
 
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push(redirect || '/');
     }
-  }, [router, userInfo]);
+  }, [router, userInfo, redirect]);
 
   const {
     handleSubmit,
@@ -46,7 +47,7 @@ const Register = () => {
       });
       dispatch({ type: 'USER_LOGIN', payload: data });
       jsCookie.set('userInfo', JSON.stringify(data));
-      router.push('/');
+      router.push(redirect || '/');
     } catch (error) {
       toast.error(getError(error));
     }
@@ -181,7 +182,7 @@ const Register = () => {
           </ListItem>
           <ListItem>
             Already have an account?{' '}
-            <NextLink href={`/login`} passHref>
+            <NextLink href={`/login?redirect=${redirect || '/'} `} passHref>
               <Link>Login</Link>
             </NextLink>
           </ListItem>

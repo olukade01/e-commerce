@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useRef, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
@@ -23,22 +24,23 @@ const Cart = () => {
     toggleCartItemQuantity,
     onRemove,
   } = useStateContext();
+  const router = useRouter();
 
-  const handlePay = async () => {
-    const stripe = await getStripe();
-    const response = await fetch('/api/stripe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cartItems),
-    });
-    console.log({ response });
-    if (response.statusCode === 500) return;
-    const data = await response.json();
-    toast.loading('Redirecting...');
-    stripe.redirectToCheckout({ sessionId: data.id });
-  };
+  // const handlePay = async () => {
+  //   const stripe = await getStripe();
+  //   const response = await fetch('/api/stripe', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(cartItems),
+  //   });
+  //   console.log({ response });
+  //   if (response.statusCode === 500) return;
+  //   const data = await response.json();
+  //   toast.loading('Redirecting...');
+  //   stripe.redirectToCheckout({ sessionId: data.id });
+  // };
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
@@ -124,8 +126,15 @@ const Cart = () => {
               <h3>${totalPrice}</h3>
             </div>
             <div className="btn-container">
-              <button onClick={handlePay} className="btn" type="button">
-                pay with stripe
+              <button
+                onClick={() => {
+                  router.push('/shipping');
+                  setShowCart(false);
+                }}
+                className="btn"
+                type="button"
+              >
+                checkout
               </button>
             </div>
           </div>

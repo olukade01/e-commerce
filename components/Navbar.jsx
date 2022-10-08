@@ -26,9 +26,10 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     setAnchorEl(null);
     dispatch({ type: 'USER_LOGOUT' });
     jsCookie.remove('userInfo');
-    localStorage.remove('cartItems');
-    localStorage.remove('totalPrice');
-    localStorage.remove('totalQuantities');
+    jsCookie.remove('shippingAddress');
+    localStorage.removeItem('cartItems');
+    localStorage.removeItem('totalPrice');
+    localStorage.removeItem('totalQuantities');
     router.push('/');
   };
   return (

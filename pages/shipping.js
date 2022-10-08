@@ -1,20 +1,57 @@
 import { Button, List, ListItem, TextField, Typography } from '@mui/material';
-import React from 'react';
+import jsCookie from 'js-cookie';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import CheckoutCarousel from '../components/CheckoutCarousel';
 import Form from '../components/Form';
+import { Store } from '../lib/store';
 
 const Shipping = () => {
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm();
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const { userInfo, shippingAddress } = state;
+
+  useEffect(() => {
+    // if (!userInfo) {
+    //   return router.push('/login?redirect=/shipping');
+    // }
+
+    setValue('fullName', shippingAddress.fullName);
+    setValue('address', shippingAddress.address);
+    setValue('city', shippingAddress.city);
+    setValue('postalCode', shippingAddress.postalCode);
+    setValue('country', shippingAddress.country);
+  }, [router, setValue, shippingAddress, userInfo]);
+
+  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
+    dispatch({
+      type: 'SAVE_SHIPPING_ADDRESS',
+      payload: { fullName, address, city, postalCode, country },
+    });
+    jsCookie.set(
+      'shippingAddress',
+      JSON.stringify({
+        fullName,
+        address,
+        city,
+        postalCode,
+        country,
+      })
+    );
+    router.push('/payment');
+  };
   return (
     <div>
       <CheckoutCarousel activeStep={1}></CheckoutCarousel>
       <Form onSubmit={handleSubmit(submitHandler)}>
-        <Typography component="h1" variant="h1">
+        <Typography component="h1" variant="h2">
           Shipping Address
         </Typography>
         <List>
