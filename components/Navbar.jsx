@@ -27,6 +27,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     dispatch({ type: 'USER_LOGOUT' });
     jsCookie.remove('userInfo');
     jsCookie.remove('shippingAddress');
+    jsCookie.remove('paymentMethod');
     localStorage.removeItem('cartItems');
     localStorage.removeItem('totalPrice');
     localStorage.removeItem('totalQuantities');

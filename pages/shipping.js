@@ -16,7 +16,10 @@ const Shipping = () => {
   } = useForm();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const { userInfo, shippingAddress } = state;
+  const {
+    userInfo,
+    cart: { shippingAddress },
+  } = state;
 
   useEffect(() => {
     // if (!userInfo) {

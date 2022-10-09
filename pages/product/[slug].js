@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import React, { useState } from 'react';
 import { client, urlFor } from '../../lib/client';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { Product } from '../../components';
