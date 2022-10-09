@@ -73,6 +73,7 @@ const StateContext = ({ children }) => {
     setTotalQuantities((prevValue) => prevValue - foundProduct.quantity);
     setCartItems(newCartItems);
   };
+  const clearCart = () => setCartItems([]);
 
   const toggleCartItemQuantity = (id, value) => {
     foundProduct = cartItems.find((item) => item._id === id);
@@ -129,6 +130,7 @@ const StateContext = ({ children }) => {
         setTotalQuantities,
         indexx,
         setIndexx,
+        clearCart,
       }}
     >
       {children}

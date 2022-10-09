@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import toast from 'react-hot-toast';
 import {
   AiOutlineLeft,
