@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useContext, useEffect } from 're act';
+import React, { useContext, useEffect } from 'react';
 import NextLink from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import Form from '../components/Form';
