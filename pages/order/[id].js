@@ -1,6 +1,7 @@
 import {
   Alert,
-  // Box,
+  Box,
+  Button,
   Card,
   CircularProgress,
   Grid,
@@ -16,14 +17,18 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
-// import { Box } from '@mui/system';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React, { useContext, useEffect, useReducer } from 'react';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useRouter } from 'next/router';
 import { Store } from '../../lib/store';
 import axios from 'axios';
 import { getError } from '../../lib/error';
+import { urlFor } from '../../lib/client';
+import toast from 'react-hot-toast';
+import getStripe from '../../lib/getStripe';
+import { useStateContext } from '../../context/StateContext';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -69,9 +74,13 @@ function OrderScreen({ params }) {
     deliveredAt,
   } = order;
 
+  const { cartItems } = useStateContext();
+
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   useEffect(() => {
     if (!userInfo) {
@@ -89,32 +98,84 @@ function OrderScreen({ params }) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
-    fetchOrder();
-    // if (!order._id || successPay || (order._id && order._id !== orderId)) {
-    //   if (successPay) {
-    //     dispatch({ type: 'PAY_RESET' });
-    //   }
-    // } else {
-    //   const loadPaypalScript = async () => {
-    //     const { data: clientId } = await axios.get('/api/keys/paypal', {
-    //       headers: { authorization: `Bearer ${userInfo.token}` },
-    //     });
-    //     paypalDispatch({
-    //       type: 'resetOptions',
-    //       value: {
-    //         'client-id': clientId,
-    //         currency: 'USD',
-    //       },
-    //     });
-    //     paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-    //   };
-    //   loadPaypalScript();
-    // }
-  }, []);
+    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+      fetchOrder();
+      if (successPay) {
+        dispatch({ type: 'PAY_RESET' });
+      }
+    } else {
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await axios.get('/api/keys/paypal', {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      loadPaypalScript();
+    }
+  }, [order, orderId, paypalDispatch, router, successPay, userInfo]);
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  }
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {
+      try {
+        dispatch({ type: 'PAY_REQUEST' });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+        toast.success('Order is paid');
+      } catch (err) {
+        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+        toast.error(getError(err));
+      }
+    });
+  }
+  function onError(err) {
+    toast.error(getError(err));
+  }
+
+  const handlePay = async () => {
+    const stripe = await getStripe();
+    const response = await fetch('/api/stripe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cartItems),
+    });
+    // console.log({ response });
+    if (response.statusCode === 500) return;
+    const data = await response.json();
+    toast.loading('Redirecting...');
+    stripe.redirectToCheckout({ sessionId: data.id });
+  };
 
   return (
     <div>
-      <Typography component="h1" variant="h1">
+      <Typography component="h1" variant="h3">
         Order {orderId}
       </Typography>
 
@@ -130,7 +191,7 @@ function OrderScreen({ params }) {
             >
               <List>
                 <ListItem>
-                  <Typography component="h2" variant="h2">
+                  <Typography component="h2" variant="h4">
                     Shipping Address
                   </Typography>
                 </ListItem>
@@ -153,7 +214,7 @@ function OrderScreen({ params }) {
             >
               <List>
                 <ListItem>
-                  <Typography component="h2" variant="h2">
+                  <Typography component="h2" variant="h4">
                     Payment Method
                   </Typography>
                 </ListItem>
@@ -169,7 +230,7 @@ function OrderScreen({ params }) {
             >
               <List>
                 <ListItem>
-                  <Typography component="h2" variant="h2">
+                  <Typography component="h2" variant="h4">
                     Order Items
                   </Typography>
                 </ListItem>
@@ -190,12 +251,12 @@ function OrderScreen({ params }) {
                             <TableCell>
                               <NextLink href={`/product/${item.slug}`} passHref>
                                 <Link>
-                                  {/* <Image
-                                    src={item.image}
+                                  <Image
+                                    src={`${urlFor(item.image[0])}`}
                                     alt={item.name}
                                     width={50}
                                     height={50}
-                                  ></Image> */}
+                                  ></Image>
                                 </Link>
                               </NextLink>
                             </TableCell>
@@ -227,7 +288,7 @@ function OrderScreen({ params }) {
             >
               <List>
                 <ListItem>
-                  <Typography variant="h2">Order Summary</Typography>
+                  <Typography variant="h4">Order Summary</Typography>
                 </ListItem>
                 <ListItem>
                   <Grid container>
@@ -273,23 +334,36 @@ function OrderScreen({ params }) {
                     </Grid>
                   </Grid>
                 </ListItem>
-                {/* {!isPaid && (
+                {!isPaid && (
                   <ListItem>
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      <Box
-                      // sx={classes.fullWidth}
-                      >
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
+                      <Box>
+                        {paymentMethod === 'Stripe' ? (
+                          <Button
+                            onClick={handlePay}
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                          >
+                            Pay with Stripe
+                          </Button>
+                        ) : (
+                          <Box
+                          // sx={classes.fullWidth}
+                          >
+                            <PayPalButtons
+                              createOrder={createOrder}
+                              onApprove={onApprove}
+                              onError={onError}
+                            ></PayPalButtons>
+                          </Box>
+                        )}
                       </Box>
                     )}
                   </ListItem>
-                )} */}
+                )}
               </List>
             </Card>
           </Grid>

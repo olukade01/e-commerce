@@ -5,6 +5,7 @@ import '../styles/globals.css';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { StoreProvider } from '../lib/store';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const clientSideEmotionCache = createCache({ key: 'css' });
 
@@ -14,14 +15,15 @@ function MyApp({
   emotionCache = clientSideEmotionCache,
 }) {
   return (
-    // <div>hi</div>
     <CacheProvider value={emotionCache}>
       <StateContext>
         <StoreProvider>
-          <Layout>
-            <Toaster />
-            <Component {...pageProps} />
-          </Layout>
+          <PayPalScriptProvider deferLoading={true}>
+            <Layout>
+              <Toaster />
+              <Component {...pageProps} />
+            </Layout>
+          </PayPalScriptProvider>
         </StoreProvider>
       </StateContext>
     </CacheProvider>

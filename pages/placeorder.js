@@ -35,7 +35,10 @@ function Placeorder() {
     userInfo,
     cart: { shippingAddress, paymentMethod },
   } = state;
-  const { cartItems, clearCart, setTotalQuantities } = useStateContext();
+  const {
+    cartItems,
+    // clearCart, setTotalQuantities
+  } = useStateContext();
   console.log(cartItems);
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
   const itemsPrice = round2(
@@ -49,9 +52,9 @@ function Placeorder() {
     if (!paymentMethod) {
       router.push('/payment');
     }
-    // if (cartItems.length === 0) {
-    //   router.push('/');
-    // }
+    if (cartItems.length === 0) {
+      router.push('/');
+    }
   }, [paymentMethod, router, cartItems]);
 
   const placeOrderHandler = async () => {
@@ -79,11 +82,11 @@ function Placeorder() {
         }
       );
 
-      clearCart();
-      setTotalQuantities(0);
-      localStorage.removeItem('cartItems');
-      localStorage.removeItem('totalPrice');
-      localStorage.removeItem('totalQuantities');
+      // clearCart();
+      // setTotalQuantities(0);
+      // localStorage.removeItem('cartItems');
+      // localStorage.removeItem('totalPrice');
+      // localStorage.removeItem('totalQuantities');
       setLoading(false);
       router.push(`/order/${data}`);
     } catch (err) {

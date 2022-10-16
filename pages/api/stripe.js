@@ -5,7 +5,7 @@ const stripe = new Stripe(
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    console.log(req.body.cartItems);
+    console.log(req.body);
     try {
       const params = {
         submit_type: 'pay',
@@ -13,8 +13,8 @@ export default async function handler(req, res) {
         payment_method_types: ['card'],
         billing_address_collection: 'auto',
         shipping_options: [
-          // { shipping_rate: "shr_1Lo3dyHuALG6UF6qVERnzI9k" },
-          { shipping_rate: 'shr_1Lo3kmHuALG6UF6qGmpfpQRg' },
+          { shipping_rate: 'shr_1Lo3dyHuALG6UF6qVERnzI9k' },
+          // { shipping_rate: 'shr_1Lo3kmHuALG6UF6qGmpfpQRg' },
         ],
         line_items: req.body.map((item) => {
           const img = item.image[0].asset._ref;

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import {
   AiOutlineLeft,
   AiOutlineMinus,
@@ -11,7 +11,7 @@ import {
 import { TiDeleteOutline } from 'react-icons/ti';
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
-import getStripe from '../lib/getStripe';
+// import getStripe from '../lib/getStripe';
 
 const Cart = () => {
   const cartRef = useRef();
@@ -24,22 +24,6 @@ const Cart = () => {
     onRemove,
   } = useStateContext();
   const router = useRouter();
-
-  // const handlePay = async () => {
-  //   const stripe = await getStripe();
-  //   const response = await fetch('/api/stripe', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(cartItems),
-  //   });
-  //   console.log({ response });
-  //   if (response.statusCode === 500) return;
-  //   const data = await response.json();
-  //   toast.loading('Redirecting...');
-  //   stripe.redirectToCheckout({ sessionId: data.id });
-  // };
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
