@@ -63,9 +63,9 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     jsCookie.remove('paymentMethod');
     clearCart();
     setTotalQuantities(0);
-    window.localStorage.removeItem('cartItems');
-    window.localStorage.removeItem('totalPrice');
-    window.localStorage.removeItem('totalQuantities');
+    localStorage.removeItem('cartItems');
+    localStorage.removeItem('totalPrice');
+    localStorage.removeItem('totalQuantities');
     router.push('/');
   };
 
