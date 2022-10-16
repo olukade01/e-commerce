@@ -29,14 +29,14 @@ import { Store } from '../lib/store';
 
 function Placeorder() {
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
+  const router = useRouter();
   const {
     userInfo,
     cart: { shippingAddress, paymentMethod },
   } = state;
   const { cartItems, clearCart } = useStateContext();
   console.log(cartItems);
-  const router = useRouter();
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
   const itemsPrice = round2(
     cartItems?.reduce((a, c) => a + c.price * c.quantity, 0)
@@ -49,10 +49,10 @@ function Placeorder() {
     if (!paymentMethod) {
       router.push('/payment');
     }
-    // if (cartItems.length === 0) {
-    //   router.push('/cart');
-    // }
-  }, [paymentMethod, router]);
+    if (cartItems.length === 0) {
+      router.push('/cart');
+    }
+  }, [paymentMethod, router, cartItems]);
 
   const placeOrderHandler = async () => {
     try {
@@ -74,11 +74,11 @@ function Placeorder() {
         },
         {
           headers: {
-            // authorization: `Bearer sksL4WviOaerW8GOM59MVENpi7uu4pHNv1sLdIaalQFwMX1oA4pzc49oUi34cJ1xodx2xksR5bP11tARSlNlYLIjfNvVZABARLKdp2V1gTzNAC5b9M6AX0FdeWExOkNvTriUGylLN42TFkBAoC06XW37S2cypdj1ilF8cUQyagbF1YqAgSva`,
+            authorization: `Bearer ${userInfo.token}`,
           },
         }
       );
-      // ${userInfo.token}
+
       clearCart();
       localStorage.removeItem('cartItems');
       setLoading(false);
@@ -88,6 +88,7 @@ function Placeorder() {
       toast.error(getError(err));
     }
   };
+  console.log(userInfo.token);
 
   return (
     <div>
@@ -229,6 +230,16 @@ function Placeorder() {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography align="right">${shippingPrice}</Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>Tax:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="right">${taxPrice}</Typography>
                   </Grid>
                 </Grid>
               </ListItem>

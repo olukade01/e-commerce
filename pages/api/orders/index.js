@@ -1,15 +1,16 @@
 import axios from 'axios';
 import nc from 'next-connect';
-// import { isAuth } from '../../../lib/auth';
+import { isAuth } from '../../../lib/auth';
 
 const handler = nc();
 
-// handler.use(isAuth);
+handler.use(isAuth);
 
 handler.post(async (req, res) => {
   const projectId = 'gdnfh238';
   const dataset = 'production';
-  // const tokenWithWriteAccess = process.env.SANITY_TOKEN;
+  const tokenWithWriteAccess =
+    'sksL4WviOaerW8GOM59MVENpi7uu4pHNv1sLdIaalQFwMX1oA4pzc49oUi34cJ1xodx2xksR5bP11tARSlNlYLIjfNvVZABARLKdp2V1gTzNAC5b9M6AX0FdeWExOkNvTriUGylLN42TFkBAoC06XW37S2cypdj1ilF8cUQyagbF1YqAgSva';
   const { data } = await axios.post(
     `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
     {
@@ -19,10 +20,10 @@ handler.post(async (req, res) => {
             _type: 'order',
             createdAt: new Date().toISOString(),
             ...req.body,
-            // userName: req.user.name,
+            userName: req.user.name,
             user: {
               _type: 'reference',
-              // _ref: req.user._id,
+              _ref: req.user._id,
             },
           },
         },
@@ -31,7 +32,7 @@ handler.post(async (req, res) => {
     {
       headers: {
         'Content-type': 'application/json',
-        // Authorization: `Bearer ${tokenWithWriteAccess}`,
+        Authorization: `Bearer ${tokenWithWriteAccess}`,
       },
     }
   );

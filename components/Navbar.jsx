@@ -31,7 +31,13 @@ import { getError } from '../lib/error';
 import { useClickAway } from 'react-use';
 
 const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
-  const { showCart, setShowCart, totalQuantities } = useStateContext();
+  const {
+    showCart,
+    setShowCart,
+    totalQuantities,
+    setTotalQuantities,
+    clearCart,
+  } = useStateContext();
   const { dispatch } = useContext(Store);
   const [anchorEl, setAnchorEl] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -55,9 +61,11 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     jsCookie.remove('userInfo');
     jsCookie.remove('shippingAddress');
     jsCookie.remove('paymentMethod');
-    localStorage.removeItem('cartItems');
-    localStorage.removeItem('totalPrice');
-    localStorage.removeItem('totalQuantities');
+    clearCart();
+    setTotalQuantities(0);
+    window.localStorage.removeItem('cartItems');
+    window.localStorage.removeItem('totalPrice');
+    window.localStorage.removeItem('totalQuantities');
     router.push('/');
   };
 
