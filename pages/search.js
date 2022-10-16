@@ -1,6 +1,20 @@
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Grid,
+  List,
+  ListItem,
+  MenuItem,
+  Rating,
+  Select,
+  Typography,
+} from '@mui/material';
 import axios from 'axios';
+import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { Product } from '../components';
 import { client } from '../lib/client';
 
 const prices = [
@@ -75,6 +89,7 @@ const Search = () => {
         setState({ loading: true });
 
         const products = await client.fetch(gQuery);
+        console.log(products);
         setState({ products, loading: false });
       } catch (err) {
         setState({ error: err.message, loading: false });
@@ -111,11 +126,17 @@ const Search = () => {
   };
 
   return (
-    <Grid sx={classes.section} container spacing={2}>
+    <Grid
+      // sx={classes.section}
+      container
+      spacing={2}
+    >
       <Grid item md={3}>
         <List>
           <ListItem>
-            <Box sx={classes.fullWidth}>
+            <Box
+            // sx={classes.fullWidth}
+            >
               <Typography>Categories</Typography>
               <Select fullWidth value={category} onChange={categoryHandler}>
                 <MenuItem value="all">All</MenuItem>
@@ -129,7 +150,9 @@ const Search = () => {
             </Box>
           </ListItem>
           <ListItem>
-            <Box sx={classes.fullWidth}>
+            <Box
+            // sx={classes.fullWidth}
+            >
               <Typography>Prices</Typography>
               <Select value={price} onChange={priceHandler} fullWidth>
                 <MenuItem value="all">All</MenuItem>
@@ -142,7 +165,9 @@ const Search = () => {
             </Box>
           </ListItem>
           <ListItem>
-            <Box sx={classes.fullWidth}>
+            <Box
+            // sx={classes.fullWidth}
+            >
               <Typography>Ratings</Typography>
               <Select value={rating} onChange={ratingHandler} fullWidth>
                 <MenuItem value="all">All</MenuItem>
@@ -172,7 +197,10 @@ const Search = () => {
           </Grid>
 
           <Grid item>
-            <Typography component="span" sx={classes.sort}>
+            <Typography
+              component="span"
+              // sx={classes.sort}
+            >
               Sort by
             </Typography>
             <Select value={sort} onChange={sortHandler}>
@@ -184,18 +212,22 @@ const Search = () => {
           </Grid>
         </Grid>
 
-        <Grid sx={classes.section} container spacing={3}>
+        <Grid
+          // sx={classes.section}
+          container
+          spacing={3}
+        >
           {loading ? (
             <CircularProgress />
           ) : error ? (
             <Alert>{error}</Alert>
           ) : (
             <Grid container spacing={3}>
-              {products.map((product) => (
-                <Grid item md={4} key={product.name}>
-                  <ProductItem
+              {products.map((product, index) => (
+                <Grid item md={4} key={`${product.name}_${index}`}>
+                  <Product
                     product={product}
-                    addToCartHandler={addToCartHandler}
+                    // addToCartHandler={addToCartHandler}
                   />
                 </Grid>
               ))}

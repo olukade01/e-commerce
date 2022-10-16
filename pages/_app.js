@@ -14,6 +14,7 @@ function MyApp({
   emotionCache = clientSideEmotionCache,
 }) {
   return (
+    // <div>hi</div>
     <CacheProvider value={emotionCache}>
       <StateContext>
         <StoreProvider>

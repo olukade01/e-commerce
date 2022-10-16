@@ -32,6 +32,7 @@
     "react-hook-form": "^7.37.0",
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
+    "react-use": "^17.4.0",
     "stripe": "^8.209.0"
   },
   "devDependencies": {

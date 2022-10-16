@@ -9,7 +9,8 @@ const handler = nc();
 handler.post(async (req, res) => {
   const projectId = 'gdnfh238';
   const dataset = 'production';
-  const tokenWithWriteAccess = process.env.SANITY_TOKEN;
+  const tokenWithWriteAccess =
+    'sksL4WviOaerW8GOM59MVENpi7uu4pHNv1sLdIaalQFwMX1oA4pzc49oUi34cJ1xodx2xksR5bP11tARSlNlYLIjfNvVZABARLKdp2V1gTzNAC5b9M6AX0FdeWExOkNvTriUGylLN42TFkBAoC06XW37S2cypdj1ilF8cUQyagbF1YqAgSva';
   const createMutations = [
     {
       create: {

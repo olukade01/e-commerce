@@ -28,7 +28,11 @@ const Login = () => {
       router.push(redirect || '/');
     }
   }, [router, userInfo, redirect]);
-  const { handleSubmit, control } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const submitHandler = async ({ email, password }) => {
     try {
       const { data } = await axios.post('/api/users/login', {
@@ -65,14 +69,14 @@ const Login = () => {
                   id="email"
                   label="Email"
                   inputProps={{ type: 'email' }}
-                  // error={Boolean(errors.email)}
-                  // helperText={
-                  //   errors.email
-                  //     ? errors.email.type === 'pattern'
-                  //       ? 'Email is not valid'
-                  //       : 'Email is required'
-                  //     : ''
-                  // }
+                  error={Boolean(errors.email)}
+                  helperText={
+                    errors.email
+                      ? errors.email.type === 'pattern'
+                        ? 'Email is not valid'
+                        : 'Email is required'
+                      : ''
+                  }
                   {...field}
                 ></TextField>
               )}
@@ -94,14 +98,14 @@ const Login = () => {
                   id="password"
                   label="Password"
                   inputProps={{ type: 'password' }}
-                  // error={Boolean(errors.password)}
-                  // helperText={
-                  //   errors.password
-                  //     ? errors.password.type === 'minLength'
-                  //       ? 'Password length should be more than 5'
-                  //       : 'Password is required'
-                  //     : ''
-                  // }
+                  error={Boolean(errors.password)}
+                  helperText={
+                    errors.password
+                      ? errors.password.type === 'minLength'
+                        ? 'Password length should be more than 5'
+                        : 'Password is required'
+                      : ''
+                  }
                   {...field}
                 ></TextField>
               )}
