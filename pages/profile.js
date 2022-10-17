@@ -1,10 +1,14 @@
 import { Button, List, ListItem, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import Form from '../components/Form';
+import { getError } from '../lib/error';
 import { Store } from '../lib/store';
+import jsCookie from 'js-cookie';
 
 function Profile() {
   const router = useRouter();
@@ -25,7 +29,29 @@ function Profile() {
     setValue('email', userInfo.email);
   }, [router, setValue, userInfo]);
 
-  const submitHandler = () => {};
+  const submitHandler = async ({ name, email, password, confirmPassword }) => {
+    if (password !== confirmPassword) {
+      toast.error("Passwords don't match");
+      return;
+    }
+    try {
+      const { data } = await axios.put(
+        '/api/users/profile',
+        {
+          name,
+          email,
+          password,
+        },
+        { headers: { authorization: `Bearer ${userInfo.token}` } }
+      );
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      jsCookie.set('userInfo', JSON.stringify(data));
+      toast.success('Profile updated successfully');
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  };
+
   return (
     <div>
       <Typography component="h1" variant="h3">
