@@ -1,8 +1,8 @@
-import Link from "next/link";
-import React, { useEffect } from "react";
-import { BsBagCheckFill } from "react-icons/bs";
-import { useStateContext } from "../context/StateContext";
-import { fireworks } from "../lib/utils";
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import { BsBagCheckFill } from 'react-icons/bs';
+import { useStateContext } from '../context/StateContext';
+import { fireworks } from '../lib/utils';
 
 const Success = () => {
   const { setCartItems, setTotalPrice, setTotalQuantities } = useStateContext();
@@ -13,7 +13,7 @@ const Success = () => {
     setTotalPrice(0);
     setTotalQuantities(0);
     fireworks();
-  }, []);
+  }, [setCartItems, setTotalPrice, setTotalQuantities]);
 
   return (
     <div className="success-wrapper">
