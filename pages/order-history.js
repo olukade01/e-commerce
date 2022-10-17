@@ -39,6 +39,20 @@ function OrderHistory() {
     orders: [],
     error: '',
   });
+
+  // const {
+  //   // shippingAddress,
+  //   paymentMethod,
+  //   // orderItems,
+  //   // itemsPrice,
+  //   // taxPrice,
+  //   // shippingPrice,
+  //   // totalPrice,
+  //   // isPaid,
+  //   // paidAt,
+  //   // isDelivered,
+  //   // deliveredAt,
+  // } = order;
   const router = useRouter();
   useEffect(() => {
     if (!userInfo) {
@@ -86,7 +100,11 @@ function OrderHistory() {
                   <TableCell>{order.createdAt}</TableCell>
                   <TableCell>${order.totalPrice}</TableCell>
                   <TableCell>
-                    {order.isPaid ? `paid at ${order.paidAt}` : 'not paid'}
+                    {order.paymentMethod === 'PayPal'
+                      ? order.isPaid
+                        ? `paid at ${order.paidAt}`
+                        : 'not paid'
+                      : ''}
                   </TableCell>
                   <TableCell>
                     <NextLink href={`/order/${order._id}`} passHref>

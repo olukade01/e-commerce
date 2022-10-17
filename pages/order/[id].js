@@ -171,12 +171,18 @@ function OrderScreen({ params }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(cartItems),
+      body: JSON.stringify(cartItems.length ? cartItems : orderItems),
     });
     if (response.statusCode === 500) return;
     const data = await response.json();
+    // const { dataa } = await axios.put(`/api/orders/${order._id}/pay`, {
+    //   headers: { authorization: `Bearer ${userInfo.token}` },
+    // });
+    // dispatch({ type: 'PAY_SUCCESS', payload: dataa });
     toast.loading('Redirecting...');
+    // isPaid = true;
     stripe.redirectToCheckout({ sessionId: data.id });
+    // onApprove();
   };
 
   return (
