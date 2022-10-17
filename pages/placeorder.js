@@ -82,11 +82,6 @@ function Placeorder() {
         }
       );
 
-      // clearCart();
-      // setTotalQuantities(0);
-      // localStorage.removeItem('cartItems');
-      // localStorage.removeItem('totalPrice');
-      // localStorage.removeItem('totalQuantities');
       setLoading(false);
       router.push(`/order/${data}`);
     } catch (err) {

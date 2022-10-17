@@ -37,6 +37,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     totalQuantities,
     setTotalQuantities,
     clearCart,
+    setTotalPrice,
   } = useStateContext();
   const { dispatch } = useContext(Store);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -63,6 +64,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
     jsCookie.remove('paymentMethod');
     clearCart();
     setTotalQuantities(0);
+    setTotalPrice(0);
     localStorage.removeItem('cartItems');
     localStorage.removeItem('totalPrice');
     localStorage.removeItem('totalQuantities');

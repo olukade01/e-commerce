@@ -74,7 +74,8 @@ function OrderScreen({ params }) {
     deliveredAt,
   } = order;
 
-  const { cartItems } = useStateContext();
+  const { cartItems, clearCart, setTotalQuantities, setTotalPrice } =
+    useStateContext();
 
   const router = useRouter();
   const { state } = useContext(Store);
@@ -147,6 +148,12 @@ function OrderScreen({ params }) {
         );
         dispatch({ type: 'PAY_SUCCESS', payload: data });
         toast.success('Order is paid');
+        clearCart();
+        setTotalQuantities(0);
+        setTotalPrice(0);
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('totalPrice');
+        localStorage.removeItem('totalQuantities');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
         toast.error(getError(err));
@@ -166,7 +173,6 @@ function OrderScreen({ params }) {
       },
       body: JSON.stringify(cartItems),
     });
-    // console.log({ response });
     if (response.statusCode === 500) return;
     const data = await response.json();
     toast.loading('Redirecting...');
