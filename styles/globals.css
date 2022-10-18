@@ -357,6 +357,7 @@ span.text-red {
 .empty-cart {
   margin: 40px;
   text-align: center;
+  color: #000;
 }
 .empty-cart h3 {
   font-weight: 600;
@@ -403,6 +404,7 @@ span.text-red {
 .total {
   display: flex;
   justify-content: space-between;
+  color: #000;
 }
 .total h3 {
   font-size: 22px;
@@ -450,7 +452,7 @@ span.text-red {
   gap: 40px;
   margin: 40px;
   margin-top: 60px;
-  color: #324d67;
+  color: gray;
 }
 
 .product-detail-image {
@@ -481,7 +483,6 @@ span.text-red {
   background-color: #f02d34;
 }
 .reviews {
-  color: #f02d34;
   margin-top: 10px;
   display: flex;
   gap: 5px;
@@ -507,13 +508,11 @@ span.text-red {
 .product-detail-desc .instock {
   font-weight: 700;
   font-size: 22px;
-  /* margin-top: 30px; */
   color: green;
 }
 .product-detail-desc .unavailable {
   font-weight: 700;
   font-size: 20px;
-  /* margin-top: 30px; */
   color: red;
 }
 .price .old-price,
