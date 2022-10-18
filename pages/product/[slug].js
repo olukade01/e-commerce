@@ -29,7 +29,9 @@ const ProductDetails = ({ product, products }) => {
 
   const handleBuy = () => {
     onAdd(product, qty);
-    setShowCart(true);
+    {
+      product.inStock > 0 && setShowCart(true);
+    }
   };
 
   console.log({ price });

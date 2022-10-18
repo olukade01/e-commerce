@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Product } from '../components';
 import { client } from '../lib/client';
+import classes from '../lib/classes';
 
 const prices = [
   {
@@ -126,18 +127,12 @@ const Search = () => {
   };
 
   return (
-    <Grid
-      // sx={classes.section}
-      container
-      spacing={2}
-    >
+    <Grid sx={classes.section} container spacing={2}>
       <Grid item md={3}>
         <List>
           <ListItem>
-            <Box
-            // sx={classes.fullWidth}
-            >
-              <Typography>Categories</Typography>
+            <Box sx={classes.fullWidth}>
+              <Typography marginBottom={3}>Categories</Typography>
               <Select fullWidth value={category} onChange={categoryHandler}>
                 <MenuItem value="all">All</MenuItem>
                 {categories &&
@@ -150,9 +145,7 @@ const Search = () => {
             </Box>
           </ListItem>
           <ListItem>
-            <Box
-            // sx={classes.fullWidth}
-            >
+            <Box sx={classes.fullWidth}>
               <Typography>Prices</Typography>
               <Select value={price} onChange={priceHandler} fullWidth>
                 <MenuItem value="all">All</MenuItem>
@@ -165,9 +158,7 @@ const Search = () => {
             </Box>
           </ListItem>
           <ListItem>
-            <Box
-            // sx={classes.fullWidth}
-            >
+            <Box sx={classes.fullWidth}>
               <Typography>Ratings</Typography>
               <Select value={rating} onChange={ratingHandler} fullWidth>
                 <MenuItem value="all">All</MenuItem>
@@ -197,10 +188,7 @@ const Search = () => {
           </Grid>
 
           <Grid item>
-            <Typography
-              component="span"
-              // sx={classes.sort}
-            >
+            <Typography component="span" sx={classes.sort}>
               Sort by
             </Typography>
             <Select value={sort} onChange={sortHandler}>
@@ -213,7 +201,9 @@ const Search = () => {
         </Grid>
 
         <Grid
-          // sx={classes.section}
+          // justifyContent="center"
+          paddingLeft={5}
+          sx={classes.section}
           container
           spacing={3}
         >

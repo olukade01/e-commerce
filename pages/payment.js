@@ -44,9 +44,9 @@ export default function PaymentScreen() {
   };
   return (
     <div>
-      <CheckoutCarousel activeStep={2}></CheckoutCarousel>v
+      <CheckoutCarousel activeStep={2}></CheckoutCarousel>
       <Form onSubmit={submitHandler}>
-        <Typography component="h1" variant="h2">
+        <Typography component="h1" variant="h4">
           Payment Method
         </Typography>
         <List>

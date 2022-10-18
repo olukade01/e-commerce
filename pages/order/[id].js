@@ -29,6 +29,7 @@ import { urlFor } from '../../lib/client';
 import toast from 'react-hot-toast';
 import getStripe from '../../lib/getStripe';
 import { useStateContext } from '../../context/StateContext';
+import classes from '../../lib/classes';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -175,19 +176,13 @@ function OrderScreen({ params }) {
     });
     if (response.statusCode === 500) return;
     const data = await response.json();
-    // const { dataa } = await axios.put(`/api/orders/${order._id}/pay`, {
-    //   headers: { authorization: `Bearer ${userInfo.token}` },
-    // });
-    // dispatch({ type: 'PAY_SUCCESS', payload: dataa });
     toast.loading('Redirecting...');
-    // isPaid = true;
     stripe.redirectToCheckout({ sessionId: data.id });
-    // onApprove();
   };
 
   return (
     <div>
-      <Typography component="h1" variant="h3">
+      <Typography component="h1" variant="h6">
         Order {orderId}
       </Typography>
 
@@ -198,9 +193,7 @@ function OrderScreen({ params }) {
       ) : (
         <Grid container spacing={1}>
           <Grid item md={9} xs={12}>
-            <Card
-            // sx={classes.section}
-            >
+            <Card sx={classes.section}>
               <List>
                 <ListItem>
                   <Typography component="h2" variant="h4">
@@ -221,9 +214,7 @@ function OrderScreen({ params }) {
               </List>
             </Card>
 
-            <Card
-            // sx={classes.section}
-            >
+            <Card sx={classes.section}>
               <List>
                 <ListItem>
                   <Typography component="h2" variant="h4">
@@ -237,9 +228,7 @@ function OrderScreen({ params }) {
               </List>
             </Card>
 
-            <Card
-            // sx={classes.section}
-            >
+            <Card sx={classes.section}>
               <List>
                 <ListItem>
                   <Typography component="h2" variant="h4">
@@ -295,9 +284,7 @@ function OrderScreen({ params }) {
             </Card>
           </Grid>
           <Grid item md={3} xs={12}>
-            <Card
-            // sx={classes.section}
-            >
+            <Card sx={classes.section}>
               <List>
                 <ListItem>
                   <Typography variant="h4">Order Summary</Typography>
@@ -354,6 +341,7 @@ function OrderScreen({ params }) {
                       <Box>
                         {paymentMethod === 'Stripe' ? (
                           <Button
+                            sx={classes.fullWidth}
                             onClick={handlePay}
                             variant="contained"
                             color="primary"
@@ -362,9 +350,7 @@ function OrderScreen({ params }) {
                             Pay with Stripe
                           </Button>
                         ) : (
-                          <Box
-                          // sx={classes.fullWidth}
-                          >
+                          <Box sx={classes.fullWidth}>
                             <PayPalButtons
                               createOrder={createOrder}
                               onApprove={onApprove}

@@ -39,20 +39,6 @@ function OrderHistory() {
     orders: [],
     error: '',
   });
-
-  // const {
-  //   // shippingAddress,
-  //   paymentMethod,
-  //   // orderItems,
-  //   // itemsPrice,
-  //   // taxPrice,
-  //   // shippingPrice,
-  //   // totalPrice,
-  //   // isPaid,
-  //   // paidAt,
-  //   // isDelivered,
-  //   // deliveredAt,
-  // } = order;
   const router = useRouter();
   useEffect(() => {
     if (!userInfo) {
@@ -74,7 +60,7 @@ function OrderHistory() {
   }, [router, userInfo]);
   return (
     <div>
-      <Typography component="h1" variant="h3">
+      <Typography component="h1" variant="h4">
         Order History
       </Typography>
       {loading ? (

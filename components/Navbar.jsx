@@ -29,6 +29,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { getError } from '../lib/error';
 import { useClickAway } from 'react-use';
+import classes from '../lib/classes';
 
 const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
   const {
@@ -98,16 +99,18 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
 
   return (
     <div className="navbar-container">
-      <IconButton
-        edge="start"
-        aria-label="open drawer"
-        onClick={handleSidebarOpen}
-      >
-        <MenuIcon />
-      </IconButton>
-      <p className="logo">
-        <Link href="/">MUZ STORE</Link>
-      </p>
+      <div className="navbar-logo">
+        <IconButton
+          edge="start"
+          aria-label="open drawer"
+          onClick={handleSidebarOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+        <p className="logo">
+          <Link href="/">MUZ STORE</Link>
+        </p>
+      </div>
       <Drawer anchor="left" open={sidebarVisible} onClose={handleSidebarClose}>
         <List>
           <ListItem>
@@ -140,18 +143,16 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
       // sx={isDesktop ? classes.visible : classes.hidden}
       >
         <form onSubmit={submitHandler}>
-          <Box
-          // sx={classes.searchForm}
-          >
+          <Box sx={classes.searchForm}>
             <InputBase
               name="query"
-              // sx={classes.searchInput}
+              sx={classes.searchInput}
               placeholder="Search products"
               onChange={queryChangeHandler}
             />
             <IconButton
               type="submit"
-              // sx={classes.searchButton}
+              sx={classes.searchButton}
               aria-label="search"
             >
               <Search />
@@ -159,47 +160,49 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
           </Box>
         </form>
       </Box>
-      <div>
-        <Switch checked={darkMode} onChange={darkModeChangeHandler}></Switch>
-      </div>
-      {userInfo ? (
-        <div ref={ref}>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={loginHandler}
-          >
-            {userInfo.name}
-          </Button>
-          <Menu
-            id="simple-menu"
-            keepMounted
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={loginMenuCloseHandler}
-            hideBackdrop={true}
-          >
-            <MenuItem onClick={(e) => loginMenuCloseHandler(e, '/profile')}>
-              Profile
-            </MenuItem>
-            <MenuItem
-              onClick={(e) => loginMenuCloseHandler(e, '/order-history')}
-            >
-              Order History
-            </MenuItem>
-            <MenuItem onClick={logoutClickHandler}>Logout</MenuItem>
-          </Menu>
+      <div className="login-cart">
+        <div>
+          <Switch checked={darkMode} onChange={darkModeChangeHandler}></Switch>
         </div>
-      ) : (
-        <p className="logo">
-          <Link href="/login">Login</Link>
-        </p>
-      )}
-      <button className="cart-icon" onClick={() => setShowCart(true)}>
-        <AiOutlineShopping />{' '}
-        <span className="cart-item-qty">{totalQuantities}</span>
-      </button>
-      {showCart && <Cart />}
+        {userInfo ? (
+          <div ref={ref}>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={loginHandler}
+            >
+              {userInfo.name}
+            </Button>
+            <Menu
+              id="simple-menu"
+              keepMounted
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={loginMenuCloseHandler}
+              hideBackdrop={true}
+            >
+              <MenuItem onClick={(e) => loginMenuCloseHandler(e, '/profile')}>
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={(e) => loginMenuCloseHandler(e, '/order-history')}
+              >
+                Order History
+              </MenuItem>
+              <MenuItem onClick={logoutClickHandler}>Logout</MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          <p className="logo">
+            <Link href="/login">Login</Link>
+          </p>
+        )}
+        <button className="cart-icon" onClick={() => setShowCart(true)}>
+          <AiOutlineShopping />{' '}
+          <span className="cart-item-qty">{totalQuantities}</span>
+        </button>
+        {showCart && <Cart />}
+      </div>
     </div>
   );
 };

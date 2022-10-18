@@ -49,7 +49,7 @@ const Login = () => {
   return (
     <div>
       <Form onSubmit={handleSubmit(submitHandler)}>
-        <Typography component="h1" variant="h3">
+        <Typography component="h1" variant="h4">
           Login
         </Typography>
         <List>

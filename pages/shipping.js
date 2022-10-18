@@ -54,7 +54,7 @@ const Shipping = () => {
     <div>
       <CheckoutCarousel activeStep={1}></CheckoutCarousel>
       <Form onSubmit={handleSubmit(submitHandler)}>
-        <Typography component="h1" variant="h2">
+        <Typography component="h1" variant="h4">
           Shipping Address
         </Typography>
         <List>

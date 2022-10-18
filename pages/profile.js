@@ -54,7 +54,7 @@ function Profile() {
 
   return (
     <div>
-      <Typography component="h1" variant="h3">
+      <Typography component="h1" variant="h4">
         Profile
       </Typography>
       <Form onSubmit={handleSubmit(submitHandler)}>
