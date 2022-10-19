@@ -197,7 +197,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler, userInfo }) => {
               </Menu>
             </div>
           ) : (
-            <p className="logo">
+            <p className="login">
               <Link href="/login">Login</Link>
             </p>
           )}
