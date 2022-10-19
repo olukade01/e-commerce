@@ -58,9 +58,8 @@ a {
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  margin: 6px 18px;
+  /* margin: 6px 18px; */
   position: relative;
-  padding: 0.5rem;
 }
 .navbar-logo {
   display: flex;
