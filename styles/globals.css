@@ -60,7 +60,6 @@ a {
   justify-content: space-between;
   margin: 6px 18px;
   position: relative;
-  /* background-color: wheat; */
   padding: 0.5rem;
 }
 .navbar-logo {
@@ -104,8 +103,9 @@ span.text-red {
   margin-left: 6px;
 }
 .logo {
-  color: gray;
-  font-size: 18px;
+  color: red;
+  font-size: 20px;
+  font-weight: 900;
 }
 .cart-icon {
   font-size: 25px;
@@ -658,6 +658,11 @@ span.text-red {
 .product-max-qty {
   margin-top: 10px;
 }
+.form {
+  width: fit-content;
+  margin: auto;
+  display: none;
+}
 
 @media screen and (max-width: 800px) {
   .hero-banner-container {
@@ -804,9 +809,20 @@ span.text-red {
     padding-right: 1rem;
   }
 }
-/* @media screen and (max-width: 400px) {
-  .cart-container {
-    width: 300px;
-    padding: 4px;
+@media screen and (max-width: 610px) {
+  .container {
+    display: none;
   }
-} */
+  .form {
+    display: block;
+  }
+  .search-input-container {
+    display: none;
+  }
+  .navbar-container {
+    padding: 0;
+  }
+  .navbar-wrapper {
+    margin-bottom: 1rem;
+  }
+}

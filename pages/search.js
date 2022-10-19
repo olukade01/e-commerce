@@ -200,13 +200,7 @@ const Search = () => {
           </Grid>
         </Grid>
 
-        <Grid
-          // justifyContent="center"
-          paddingLeft={5}
-          sx={classes.section}
-          container
-          spacing={3}
-        >
+        <Grid paddingLeft={5} sx={classes.section} container spacing={3}>
           {loading ? (
             <CircularProgress />
           ) : error ? (
