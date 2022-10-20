@@ -61,8 +61,12 @@ a {
   /* margin: 6px 18px; */
   position: relative;
 }
+.navbar-wrapper {
+  margin: 1rem;
+}
 .navbar-logo {
   display: flex;
+  gap: 1rem;
   align-items: center;
 }
 .marquee-text {
@@ -826,6 +830,9 @@ span.text-red {
     padding: 0;
   }
   .navbar-wrapper {
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
+  }
+  .navbar-logo {
+    gap: 0;
   }
 }
